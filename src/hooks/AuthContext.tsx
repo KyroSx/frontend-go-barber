@@ -14,6 +14,7 @@ interface Credentials {
 interface AuthContextData {
   user: Record<string, unknown>;
   signIn(credentials: Credentials): Promise<void>;
+  singOut(): void;
 }
 
 export const AuthContext = createContext<AuthContextData>(
@@ -21,9 +22,12 @@ export const AuthContext = createContext<AuthContextData>(
 );
 
 export const AuthProvider: React.FC = ({ children }) => {
+  const tokenStorageItem = '@GoBarber:token';
+  const userStorageItem = '@GoBarber:user';
+
   const [data, setData] = useState<AuthState>(() => {
-    const token = localStorage.getItem('@GoBarber:token');
-    const user = localStorage.getItem('@GoBarber:user');
+    const token = localStorage.getItem(tokenStorageItem);
+    const user = localStorage.getItem(userStorageItem);
 
     if (token && user) {
       return {
@@ -40,15 +44,22 @@ export const AuthProvider: React.FC = ({ children }) => {
 
     const { token, user } = response.data;
 
-    localStorage.setItem('@GoBarber:token', token);
-    localStorage.setItem('@GoBarber:user', JSON.stringify(user));
+    localStorage.setItem(tokenStorageItem, token);
+    localStorage.setItem(userStorageItem, JSON.stringify(user));
 
     setData({ token, user });
   }, []);
 
+  const singOut = useCallback(() => {
+    localStorage.removeItem(tokenStorageItem);
+    localStorage.removeItem(userStorageItem);
+
+    setData({} as AuthState);
+  }, []);
+
   return (
     <>
-      <AuthContext.Provider value={{ signIn, user: data.user }}>
+      <AuthContext.Provider value={{ signIn, user: data.user, singOut }}>
         {children}
       </AuthContext.Provider>
     </>
