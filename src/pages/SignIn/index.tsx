@@ -6,19 +6,24 @@ import * as Yup from 'yup';
 import { FormHandles } from '@unform/core';
 import imageLogo from '../../assets/logo.svg';
 import { Container, Background, Content } from './styles';
-import AuthContext from '../../context/AuthContext';
 
 import getValidationErrors from '../../utils/getValidationErrors';
 
 import Button from '../../components/Button';
 import Input from '../../components/Input';
+import { AuthContext } from '../../context/AuthContext';
+
+interface FormData {
+  email: string;
+  password: string;
+}
 
 const SignIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
 
-  const auth = useContext(AuthContext);
+  const { signIn } = useContext(AuthContext);
 
-  const handleSubmit = useCallback(async (data: Record<string, unknown>) => {
+  const handleSubmit = useCallback(async (data: FormData) => {
     try {
       formRef.current?.setErrors({});
 
@@ -30,6 +35,10 @@ const SignIn: React.FC = () => {
       });
 
       await schema.validate(data, { abortEarly: false });
+
+      const { email, password } = data;
+
+      signIn({ email, password });
     } catch (err) {
       const errors = getValidationErrors(err);
       formRef.current?.setErrors(errors);
