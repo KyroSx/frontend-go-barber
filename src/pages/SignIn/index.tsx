@@ -23,27 +23,30 @@ const SignIn: React.FC = () => {
 
   const { signIn } = useContext(AuthContext);
 
-  const handleSubmit = useCallback(async (data: FormData) => {
-    try {
-      formRef.current?.setErrors({});
+  const handleSubmit = useCallback(
+    async (data: FormData) => {
+      try {
+        formRef.current?.setErrors({});
 
-      const schema = Yup.object().shape({
-        email: Yup.string()
-          .required('O email é obrigátorio')
-          .email('Digite um email valido'),
-        password: Yup.string().required('O senha é obrigátoria'),
-      });
+        const schema = Yup.object().shape({
+          email: Yup.string()
+            .required('O email é obrigátorio')
+            .email('Digite um email valido'),
+          password: Yup.string().required('O senha é obrigátoria'),
+        });
 
-      await schema.validate(data, { abortEarly: false });
+        await schema.validate(data, { abortEarly: false });
 
-      const { email, password } = data;
+        const { email, password } = data;
 
-      signIn({ email, password });
-    } catch (err) {
-      const errors = getValidationErrors(err);
-      formRef.current?.setErrors(errors);
-    }
-  }, []);
+        signIn({ email, password });
+      } catch (err) {
+        const errors = getValidationErrors(err);
+        formRef.current?.setErrors(errors);
+      }
+    },
+    [signIn],
+  );
 
   return (
     <Container>
