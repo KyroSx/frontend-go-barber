@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useState } from 'react';
+import React, { createContext, useCallback, useState, useContext } from 'react';
 import api from '../services/api';
 
 interface AuthState {
@@ -54,3 +54,11 @@ export const AuthProvider: React.FC = ({ children }) => {
     </>
   );
 };
+
+export function useAuth(): AuthContextData {
+  const context = useContext(AuthContext);
+
+  if (!context) throw new Error('Context must be used with an provider');
+
+  return context;
+}
