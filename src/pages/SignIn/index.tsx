@@ -11,7 +11,8 @@ import getValidationErrors from '../../utils/getValidationErrors';
 
 import Button from '../../components/Button';
 import Input from '../../components/Input';
-import { useAuth } from '../../hooks/AuthContext';
+import { useAuth } from '../../hooks/auth';
+import { useToast } from '../../hooks/toast';
 
 interface FormData {
   email: string;
@@ -22,6 +23,7 @@ const SignIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
 
   const { signIn } = useAuth();
+  const { addToast } = useToast();
 
   const handleSubmit = useCallback(
     async (data: FormData) => {
@@ -39,12 +41,14 @@ const SignIn: React.FC = () => {
 
         const { email, password } = data;
 
-        signIn({ email, password });
+        await signIn({ email, password });
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
           formRef.current?.setErrors(errors);
         }
+
+        addToast();
       }
     },
     [signIn],
