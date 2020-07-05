@@ -12,7 +12,7 @@ const App: React.FC = () => {
     <>
       <GlobalStyle />
       <AuthProvider>
-        <SignIn />
+        <SignUp />
       </AuthProvider>
     </>
   );
