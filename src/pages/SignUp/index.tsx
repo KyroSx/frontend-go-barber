@@ -7,7 +7,7 @@ import { FormHandles } from '@unform/core';
 
 import { Link } from 'react-router-dom';
 import imageLogo from '../../assets/logo.svg';
-import { Container, Background, Content } from './styles';
+import { Container, AnimationContainer, Background, Content } from './styles';
 
 import Button from '../../components/Button';
 import Input from '../../components/Input';
@@ -40,27 +40,34 @@ const SignUp: React.FC = () => {
       <Background />
 
       <Content>
-        <img src={imageLogo} alt="" />
+        <AnimationContainer>
+          <img src={imageLogo} alt="" />
 
-        <Form ref={formRef} onSubmit={handleSubmit}>
-          <h1>Faça seu Cadastro</h1>
+          <Form ref={formRef} onSubmit={handleSubmit}>
+            <h1>Faça seu Cadastro</h1>
 
-          <Input name="name" icon={FiUser} type="text" placeholder="Nome" />
-          <Input name="email" icon={FiMail} type="email" placeholder="Email" />
-          <Input
-            name="password"
-            icon={FiLock}
-            type="password"
-            placeholder="Senha"
-          />
+            <Input name="name" icon={FiUser} type="text" placeholder="Nome" />
+            <Input
+              name="email"
+              icon={FiMail}
+              type="email"
+              placeholder="Email"
+            />
+            <Input
+              name="password"
+              icon={FiLock}
+              type="password"
+              placeholder="Senha"
+            />
 
-          <Button type="submit">Entrar</Button>
-        </Form>
+            <Button type="submit">Entrar</Button>
+          </Form>
 
-        <Link to="/">
-          <FiArrowLeft size={20} />
-          Voltar pra logon
-        </Link>
+          <Link to="/">
+            <FiArrowLeft size={20} />
+            Voltar pra logon
+          </Link>
+        </AnimationContainer>
       </Content>
     </Container>
   );

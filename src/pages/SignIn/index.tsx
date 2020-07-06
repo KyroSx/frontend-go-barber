@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 import { FormHandles } from '@unform/core';
 import { Link } from 'react-router-dom';
 import imageLogo from '../../assets/logo.svg';
-import { Container, Background, Content } from './styles';
+import { Container, AnimationContainer, Background, Content } from './styles';
 
 import getValidationErrors from '../../utils/getValidationErrors';
 
@@ -47,6 +47,8 @@ const SignIn: React.FC = () => {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
           formRef.current?.setErrors(errors);
+
+          return;
         }
 
         addToast({
@@ -62,28 +64,35 @@ const SignIn: React.FC = () => {
   return (
     <Container>
       <Content>
-        <img src={imageLogo} alt="" />
+        <AnimationContainer>
+          <img src={imageLogo} alt="Logo" />
 
-        <Form ref={formRef} onSubmit={handleSubmit}>
-          <h1>Faça seu Login</h1>
+          <Form ref={formRef} onSubmit={handleSubmit}>
+            <h1>Faça seu Login</h1>
 
-          <Input name="email" icon={FiMail} type="email" placeholder="Email" />
-          <Input
-            name="password"
-            icon={FiLock}
-            type="password"
-            placeholder="Senha"
-          />
+            <Input
+              name="email"
+              icon={FiMail}
+              type="email"
+              placeholder="Email"
+            />
+            <Input
+              name="password"
+              icon={FiLock}
+              type="password"
+              placeholder="Senha"
+            />
 
-          <Button type="submit">Entrar</Button>
+            <Button type="submit">Entrar</Button>
 
-          <a href="/">Esqueci minha senha</a>
-        </Form>
+            <a href="/">Esqueci minha senha</a>
+          </Form>
 
-        <Link to="/signup">
-          <FiLogIn size={20} />
-          Criar Conta
-        </Link>
+          <Link to="/signup">
+            <FiLogIn size={20} />
+            Criar Conta
+          </Link>
+        </AnimationContainer>
       </Content>
 
       <Background />
