@@ -4,6 +4,7 @@ import { Form } from '@unform/web';
 import * as Yup from 'yup';
 
 import { FormHandles } from '@unform/core';
+import { Link } from 'react-router-dom';
 import imageLogo from '../../assets/logo.svg';
 import { Container, Background, Content } from './styles';
 
@@ -55,7 +56,7 @@ const SignIn: React.FC = () => {
         });
       }
     },
-    [signIn],
+    [signIn, addToast],
   );
 
   return (
@@ -79,10 +80,10 @@ const SignIn: React.FC = () => {
           <a href="/">Esqueci minha senha</a>
         </Form>
 
-        <a href="/">
+        <Link to="/signup">
           <FiLogIn size={20} />
           Criar Conta
-        </a>
+        </Link>
       </Content>
 
       <Background />
